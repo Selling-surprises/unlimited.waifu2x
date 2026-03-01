@@ -683,6 +683,7 @@ $(function () {
         return blob;
     }
 
+    // 修改后的 process 函数：支持进度条
     async function process(file) {
         if (onnx_runner.running) {
             console.log("Already running");
@@ -745,31 +746,56 @@ $(function () {
         }
         set_message("(・∀・)φ ... ", -1);
 
-        await onnx_runner.tiled_render(
-            image_data, config, alpha_config,
-            tta_level,
-            tile_size, tile_random,
-            output_canvas, (progress, max_progress, processing) => {
-                if (processing) {
-                    progress_message = "(" + progress + "/" + max_progress + ")";
-                    loop_message(["( ・∀・)" + (progress % 2 == 0 ? "φ　 ":" φ　") + progress_message,
-                                  "( ・∀・)" + (progress % 2 != 0 ? "φ　 ":" φ　") + progress_message], 0.5);
-                } else {
-                    set_message("(・A・)!!", 1);
-                }
-            });
-        if (!onnx_runner.stop_flag) {
-            var output_canvas = $("#dest").get(0);
-            output_canvas.toBlob((blob) => {
-                // TODO: removeAlpha is not implemented
-                var url = URL.createObjectURL(removeAlpha(blob));
-                var filename = (file.name.split(/(?=\.[^.]+$)/))[0] + "_waifu2x_" + method + ".png";
-                set_message('( ・∀・)つ　<a href="' + url +
-                            '" download="' + filename  +
-                            '">Download</a>', -1, true);
-            }, "image/png");
+        // 显示进度条，初始值0，最大临时100
+        $("#progress-bar").show().attr({value: 0, max: 100});
+
+        try {
+            await onnx_runner.tiled_render(
+                image_data, config, alpha_config,
+                tta_level,
+                tile_size, tile_random,
+                output_canvas, (progress, max_progress, processing) => {
+                    if (processing) {
+                        // 更新进度条
+                        let $pb = $("#progress-bar");
+                        if ($pb.attr("max") != max_progress) {
+                            $pb.attr("max", max_progress);
+                        }
+                        $pb.val(progress);
+                        // 保留原有消息动画
+                        let progress_message = "(" + progress + "/" + max_progress + ")";
+                        loop_message(["( ・∀・)" + (progress % 2 == 0 ? "φ　 ":" φ　") + progress_message,
+                                      "( ・∀・)" + (progress % 2 != 0 ? "φ　 ":" φ　") + progress_message], 0.5);
+                    } else {
+                        set_message("(・A・)!!", 1);
+                        $("#progress-bar").hide();
+                    }
+                });
+            if (!onnx_runner.stop_flag) {
+                // 正常完成，隐藏进度条
+                $("#progress-bar").hide();
+                var output_canvas = $("#dest").get(0);
+                output_canvas.toBlob((blob) => {
+                    // TODO: removeAlpha is not implemented
+                    var url = URL.createObjectURL(removeAlpha(blob));
+                    var filename = (file.name.split(/(?=\.[^.]+$)/))[0] + "_waifu2x_" + method + ".png";
+                    set_message('( ・∀・)つ　<a href="' + url +
+                                '" download="' + filename  +
+                                '">Download</a>', -1, true);
+                }, "image/png");
+            } else {
+                // 如果 stop 触发，回调中已隐藏，这里确保隐藏
+                $("#progress-bar").hide();
+            }
+        } catch (error) {
+            console.error(error);
+            set_message("(-_-) Error: " + error, -1);
+            $("#progress-bar").hide();
+            onnx_runner.running = false;
+            onnx_runner.stop_flag = false;
         }
     };
+
     function set_input_image(file) {
         var reader = new FileReader();
         reader.addEventListener("load", function() {
@@ -995,7 +1021,7 @@ $(function () {
     });
     window.addEventListener("unhandledrejection", function(e) {
         set_message("(-_-) Error: " + e.reason, -1);
-        // reset running flags
+        $("#progress-bar").hide();
         onnx_runner.running = false;
         onnx_runner.stop_flag = false;
     });
