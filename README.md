@@ -1,11 +1,8 @@
- 我来为Unlimited Waifu2x网页添加一个阅读说明。首先让我搜索一下这个网站的相关信息。 
- 根据搜索结果，我来为 **Unlimited Waifu2x** 网页添加一个详细的阅读说明。
-
 ## Unlimited Waifu2x 使用说明
 
 ### 📌 网站简介
 
-**Unlimited Waifu2x**（https://unlimited.waifu2x.net/）是一款基于深度卷积神经网络（CNN）的**免费在线图片无损放大工具**，专门针对**动漫风格图像**优化，同时也支持普通照片处理。当前网页复刻了https://unlimited.waifu2x.net/，精简了一些模型。
+**Unlimited Waifu2x**（https://unlimited.waifu2x.net/）是一款基于深度卷积神经网络（CNN）的**免费在线图片无损放大工具**，专门针对**动漫风格图像**优化，同时也支持普通照片处理。**当前网页复刻了https://unlimited.waifu2x.net/，精简了一些模型。**
 
 与原版 Waifu2x（waifu2x.udp.jp）相比，**Unlimited 版本的主要优势**：
 - ✅ **无文件大小限制**（原版限制5MB）
