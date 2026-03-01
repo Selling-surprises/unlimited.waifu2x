@@ -520,9 +520,9 @@
             <td data-i18n="noise_label">🌀 降噪</td>
             <td>
               <select name="noise_level">
-                <!-- 只保留 高(2) 和 最高(3) 符合要求：降噪只保留高和极高 -->
-                <option value="2" data-i18n="noise_high" selected>(2) 高</option>
-                <option value="3" data-i18n="noise_highest">(3) 最高</option>
+                <!-- 高显示为 (1) 最高显示为 (2) 值仍对应原来的2(高)和3(最高) -->
+                <option value="2" data-i18n="noise_high" selected>(1) 高</option>
+                <option value="3" data-i18n="noise_highest">(2) 最高</option>
               </select>
             </td>
           </tr>
@@ -602,7 +602,7 @@
 
   <script>
     (function() {
-      // ---------- 中英文国际化字典 (更新 scale_comment 以匹配新的放大选项) ----------
+      // ---------- 中英文国际化字典 (降噪数字调整为(1)高 (2)最高，放大注释更新) ----------
       const i18n = {
         zh: {
           title: "Unlimited Waifu2x",
@@ -619,12 +619,8 @@
           model_swin_art_scan: "🖨 swin_unet / 扫描插画",
           model_swin_photo: "📷 swin_unet / 照片",
           model_cunet_art: "🎨 cunet / 插画",
-          noise_none: "(-) 无",        // 虽然选项已移除，但保留键值避免引用错误（实际不会用到）
-          noise_low: "(0) 低",
-          noise_med: "(1) 中",
-          noise_high: "(2) 高",
-          noise_highest: "(3) 最高",
-          scale_1: "1倍",              // 保留键值但不再使用
+          noise_high: "(1) 高",           // 修改为 (1)
+          noise_highest: "(2) 最高",       // 修改为 (2)
           scale_2: "2倍",
           scale_4: "4倍",
           tile_random: "随机顺序",
@@ -634,7 +630,6 @@
           start_btn: "开始",
           stop_btn: "停止",
           message_ready: "( ・∀・) 准备就绪",
-          // 更新注释：支持2倍和4倍
           scale_comment: "支持2倍/4倍",
           tile_comment: "推荐256",
           footer_based: "基于",
@@ -657,12 +652,8 @@
           model_swin_art_scan: "🖨 swin_unet / Scanned Illustration",
           model_swin_photo: "📷 swin_unet / Photo",
           model_cunet_art: "🎨 cunet / Illustration",
-          noise_none: "(-) None",
-          noise_low: "(0) Low",
-          noise_med: "(1) Medium",
-          noise_high: "(2) High",
-          noise_highest: "(3) Highest",
-          scale_1: "1x",
+          noise_high: "(1) High",          // 英文对应 (1)
+          noise_highest: "(2) Highest",     // 英文对应 (2)
           scale_2: "2x",
           scale_4: "4x",
           tile_random: "Random order",
@@ -672,7 +663,6 @@
           start_btn: "Start",
           stop_btn: "Stop",
           message_ready: "( ・∀・) Ready",
-          // 更新英文注释
           scale_comment: "2x/4x supported",
           tile_comment: "256 recommended",
           footer_based: "Based on",
