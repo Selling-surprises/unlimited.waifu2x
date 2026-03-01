@@ -683,7 +683,7 @@ $(function () {
         return blob;
     }
 
-    // 修改后的 process 函数：支持进度条
+    // 修改后的 process 函数：支持进度条，下载改为按钮
     async function process(file) {
         if (onnx_runner.running) {
             console.log("Already running");
@@ -779,9 +779,14 @@ $(function () {
                     // TODO: removeAlpha is not implemented
                     var url = URL.createObjectURL(removeAlpha(blob));
                     var filename = (file.name.split(/(?=\.[^.]+$)/))[0] + "_waifu2x_" + method + ".png";
+
+                    // 根据当前语言获取下载按钮文字
+                    var lang = window.__currentLang || 'zh';
+                    var downloadText = (window.__i18n && window.__i18n[lang] && window.__i18n[lang].download_btn) || '下载';
+                    // 修改为按钮样式
                     set_message('( ・∀・)つ　<a href="' + url +
                                 '" download="' + filename  +
-                                '">Download</a>', -1, true);
+                                '" class="download-button">' + downloadText + '</a>', -1, true);
                 }, "image/png");
             } else {
                 // 如果 stop 触发，回调中已隐藏，这里确保隐藏
@@ -921,17 +926,20 @@ $(function () {
     $("#stop").click(() => {
         onnx_runner.stop_flag = true;
     });
-    $("#src").click(() => {
-        var img = $("#src").get(0);
-        var css_width = parseInt($("#src").css("width"));
-        if (css_width != img.naturalWidth) {
-            $("#src").css({width: img.naturalWidth, height: img.naturalHeight});
-        } else {
-            var height = 128;
-            var width = Math.floor((height / img.naturalHeight) * img.naturalWidth);
-            $("#src").css({width: width, height: height});
-        }
-    });
+
+    // 移除原图点击放大功能（注释掉）
+    // $("#src").click(() => {
+    //     var img = $("#src").get(0);
+    //     var css_width = parseInt($("#src").css("width"));
+    //     if (css_width != img.naturalWidth) {
+    //         $("#src").css({width: img.naturalWidth, height: img.naturalHeight});
+    //     } else {
+    //         var height = 128;
+    //         var width = Math.floor((height / img.naturalHeight) * img.naturalWidth);
+    //         $("#src").css({width: width, height: height});
+    //     }
+    // });
+
     $("#dest").click(() => {
         var width = $("#dest").css("width");
         var canvas = $("#dest").get(0);
