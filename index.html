@@ -538,9 +538,11 @@
             <td data-i18n="noise_label">🌀 降噪</td>
             <td>
               <select name="noise_level">
-                <!-- 只保留高和极高，高标记为(1)，极高标记为(2) (值保持2和3不变) -->
-                <option value="2" selected data-i18n="noise_high">(1) 高</option>
-                <option value="3" data-i18n="noise_highest">(2) 最高</option>
+                <option value="-1" data-i18n="noise_none">(-) 无</option>
+                <option value="0" selected data-i18n="noise_low">(0) 低</option>
+                <option value="1" data-i18n="noise_med">(1) 中</option>
+                <option value="2" data-i18n="noise_high">(2) 高</option>
+                <option value="3" data-i18n="noise_highest">(3) 最高</option>
               </select>
             </td>
           </tr>
@@ -548,11 +550,11 @@
             <td data-i18n="scale_label">🔍 放大</td>
             <td>
               <select name="scale">
-                <!-- 只保留2倍和4倍 -->
+                <option value="1" data-i18n="scale_1">1倍</option>
                 <option value="2" selected data-i18n="scale_2">2倍</option>
                 <option value="4" data-i18n="scale_4">4倍</option>
               </select>
-              <span id="scale-comment" class="comment" data-i18n="scale_comment">2倍/4倍</span>
+              <span id="scale-comment" class="comment" data-i18n="scale_comment">不支持4倍</span>
             </td>
           </tr>
           <tr>
@@ -620,13 +622,13 @@
 
   <script>
     (function() {
-      // ---------- 中英文国际化字典 (仅保留使用的键，降噪只留高和极高，放大只留2/4倍，注释更新) ----------
+      // ---------- 中英文国际化字典 (增加 src_label / dest_label) ----------
       const i18n = {
         zh: {
           title: "Unlimited Waifu2x",
           subhead: "⚡ 浏览器端二次元放大 · 完全本地处理",
-          src_label: "🖼️ 原图",
-          dest_label: "✨ 输出",
+          src_label: "🖼️ 原图",          // 新增
+          dest_label: "✨ 输出",         // 新增
           file_emoji_label: "📂 文件",
           drag_text: "拖拽",
           model_label: "🧠 模型",
@@ -639,10 +641,12 @@
           model_swin_art_scan: "🖨 swin_unet / 扫描插画",
           model_swin_photo: "📷 swin_unet / 照片",
           model_cunet_art: "🎨 cunet / 插画",
-          // 降噪仅保留高和最高，高标记为(1)，最高标记为(2)
-          noise_high: "(1) 高",
-          noise_highest: "(2) 最高",
-          // 放大保留2倍和4倍
+          noise_none: "(-) 无",
+          noise_low: "(0) 低",
+          noise_med: "(1) 中",
+          noise_high: "(2) 高",
+          noise_highest: "(3) 最高",
+          scale_1: "1倍",
           scale_2: "2倍",
           scale_4: "4倍",
           tile_random: "随机顺序",
@@ -652,8 +656,7 @@
           start_btn: "开始",
           stop_btn: "停止",
           message_ready: "( ・∀・) 准备就绪",
-          // 更新放大注释，表明支持2倍/4倍
-          scale_comment: "2倍/4倍",
+          scale_comment: "不支持4倍",
           tile_comment: "推荐256",
           footer_based: "基于",
           footer_link: "nunif/waifu2x/unlimited_waifu2x 代码",
@@ -663,8 +666,8 @@
         en: {
           title: "Unlimited Waifu2x",
           subhead: "⚡ Browser-side anime upscaling · Fully local",
-          src_label: "🖼️ Original",
-          dest_label: "✨ Output",
+          src_label: "🖼️ Original",       // 新增
+          dest_label: "✨ Output",         // 新增
           file_emoji_label: "📂 File",
           drag_text: "drag",
           model_label: "🧠 Model",
@@ -677,10 +680,12 @@
           model_swin_art_scan: "🖨 swin_unet / Scanned Illustration",
           model_swin_photo: "📷 swin_unet / Photo",
           model_cunet_art: "🎨 cunet / Illustration",
-          // Noise: only High and Highest, High labeled (1), Highest labeled (2)
-          noise_high: "(1) High",
-          noise_highest: "(2) Highest",
-          // Scale: only 2x and 4x
+          noise_none: "(-) None",
+          noise_low: "(0) Low",
+          noise_med: "(1) Medium",
+          noise_high: "(2) High",
+          noise_highest: "(3) Highest",
+          scale_1: "1x",
           scale_2: "2x",
           scale_4: "4x",
           tile_random: "Random order",
@@ -690,7 +695,7 @@
           start_btn: "Start",
           stop_btn: "Stop",
           message_ready: "( ・∀・) Ready",
-          scale_comment: "2x/4x",
+          scale_comment: "4x not supported",
           tile_comment: "256 recommended",
           footer_based: "Based on",
           footer_link: "nunif/waifu2x/unlimited_waifu2x code",
