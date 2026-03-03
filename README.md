@@ -71,13 +71,13 @@
 
 ### 🔒 本地部署
 
-**下载发行版**
+- **下载发行版**
 
-访问https://github.com/Selling-surprises/Unlimited-Waifu2x/releases
+   访问https://github.com/Selling-surprises/Unlimited-Waifu2x/releases
 
-**启动服务**
+- **启动服务**
 
-点击“启动服务.bat”即可。
+   点击“启动服务.bat”即可。
 
 ### 🔒 隐私说明
 
